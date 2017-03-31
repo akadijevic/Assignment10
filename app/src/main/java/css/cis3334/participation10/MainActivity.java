@@ -17,10 +17,10 @@ public class MainActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //creates and opens new datasource
         datasource = new CommentsDataSource(this);
         datasource.open();
-
+        //list that gets all the comment entries
         List<Comment> values = datasource.getAllComments();
 
         // use the SimpleCursorAdapter to show the
@@ -37,6 +37,7 @@ public class MainActivity extends ListActivity {
         ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) getListAdapter();
         Comment comment = null;
         switch (view.getId()) {
+            //when button add clicked, random value from the list of string of comments is inserted
             case R.id.add:
                 String[] comments = new String[] { "Cool", "Very nice", "Hate it" };
                 int nextInt = new Random().nextInt(3);
@@ -44,6 +45,7 @@ public class MainActivity extends ListActivity {
                 comment = datasource.createComment(comments[nextInt]);
                 adapter.add(comment);
                 break;
+            // removes the last comment on the button click "Delete"
             case R.id.delete:
                 if (getListAdapter().getCount() > 0) {
                     comment = (Comment) getListAdapter().getItem(0);

@@ -25,6 +25,7 @@ public class Comment {
     }
 
     // Will be used by the ArrayAdapter in the ListView
+    // turns user's input into a string
     @Override
     public String toString() {
         return comment;
