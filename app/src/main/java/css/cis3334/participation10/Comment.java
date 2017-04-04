@@ -7,6 +7,16 @@ package css.cis3334.participation10;
 public class Comment {
     private long id;
     private String comment;
+    private String rating;
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
     //retrieves the id of the comment
     public long getId() {
         return id;
@@ -27,7 +37,7 @@ public class Comment {
     // Will be used by the ArrayAdapter in the ListView
     // turns user's input into a string
     @Override
-    public String toString() {
-        return comment;
+    public String toString( ) {
+        return comment + rating;
     }
 }

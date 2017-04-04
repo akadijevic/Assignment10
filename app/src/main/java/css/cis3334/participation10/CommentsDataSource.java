@@ -12,6 +12,7 @@ package css.cis3334.participation10;
         import android.database.Cursor;
         import android.database.SQLException;
         import android.database.sqlite.SQLiteDatabase;
+        import android.media.Rating;
 
 public class CommentsDataSource {
 
@@ -20,7 +21,7 @@ public class CommentsDataSource {
     private MySQLiteHelper dbHelper;
     //string that stores value of a a column consisting of an id and a comment
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_COMMENT };
+            MySQLiteHelper.COLUMN_COMMENT, MySQLiteHelper.COLUMN_RATING };
 
     //gets the current state of the database
     public CommentsDataSource(Context context) {
@@ -35,10 +36,11 @@ public class CommentsDataSource {
         dbHelper.close();
     }
     // method that creates a comment
-    public Comment createComment(String comment) {
+    public Comment createComment(String comment,String rating) {
         ContentValues values = new ContentValues();
         //inserts a comment into a column
         values.put(MySQLiteHelper.COLUMN_COMMENT, comment);
+        values.put(MySQLiteHelper.COLUMN_RATING, rating);
         //inserts id to the table
         long insertId = database.insert(MySQLiteHelper.TABLE_COMMENTS, null,
                 values);
@@ -63,7 +65,7 @@ public class CommentsDataSource {
         List<Comment> comments = new ArrayList<Comment>();
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
-                allColumns, null, null, null, null, null);
+                allColumns, null, null, null, null, null, null);
 
         cursor.moveToFirst();
         //sets the cursor to be pointing to the position after the last record
@@ -79,8 +81,9 @@ public class CommentsDataSource {
     //when cursos overlaying the comment, it sets and id and comment to existing value
     private Comment cursorToComment(Cursor cursor) {
         Comment comment = new Comment();
-        comment.setId(cursor.getLong(0));
+        comment.setId(cursor.getLong(cursor.getColumnIndex(MySQLiteHelper.COLUMN_ID)));
         comment.setComment(cursor.getString(1));
+        comment.setRating(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_RATING)));
         return comment;
     }
 }
